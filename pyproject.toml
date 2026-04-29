@@ -1,0 +1,19 @@
+[project]
+name = "aps-terminal"
+version = "0.1.0"
+description = "A small Linux terminal emulator with PTY, VT parser, and curses frontend."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "APS" }]
+dependencies = []
+
+[project.scripts]
+aps-terminal = "terminal_emulator.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["terminal_emulator*"]
