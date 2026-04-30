@@ -100,6 +100,7 @@ class XFactManifestTests(unittest.TestCase):
             auto_config_text = auto_config.read_text(encoding="utf-8")
             self.assertIn("--binary-images iso-hybrid", auto_config_text)
             self.assertIn("--firmware-chroot false", auto_config_text)
+            self.assertIn("--initsystem systemd", auto_config_text)
             self.assertIn("--mode debian", auto_config_text)
             self.assertIn("--security false", auto_config_text)
             self.assertIn('--mirror-bootstrap "http://deb.debian.org/debian/"', auto_config_text)

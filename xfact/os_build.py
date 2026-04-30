@@ -119,6 +119,7 @@ lb config noauto \\
   --distribution {distribution} \\
   --firmware-binary false \\
   --firmware-chroot false \\
+  --initsystem systemd \\
   --mirror-binary "http://deb.debian.org/debian/" \\
   --mirror-bootstrap "http://deb.debian.org/debian/" \\
   --mirror-chroot "http://deb.debian.org/debian/" \\
