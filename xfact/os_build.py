@@ -107,8 +107,6 @@ def _write_auto_scripts(output_dir: Path, manifest: XFactManifest) -> list[Path]
     auto_dir.mkdir(parents=True, exist_ok=True)
     distribution = _debian_distribution(manifest)
     architecture = _debian_architecture(manifest)
-    image_name = f"xfact-{manifest.version}-{architecture}"
-
     scripts = {
         "config": f"""#!/bin/sh
 set -eu
@@ -119,7 +117,6 @@ lb config noauto \\
   --bootappend-live "boot=live components hostname=xfact username=xfact locales=en_US.UTF-8" \\
   --debian-installer live \\
   --distribution {distribution} \\
-  --image-name {image_name} \\
   --iso-application "xFact Linux" \\
   --iso-publisher "xFact" \\
   --iso-volume "xFact {manifest.version}" \\
@@ -200,7 +197,8 @@ sudo lb clean --purge || true
 sudo lb build
 ```
 
-The resulting ISO is named `xfact-{manifest.version}-{_debian_architecture(manifest)}.hybrid.iso`.
+The top-level `build-xfact.sh` wrapper renames the generated ISO to
+`xfact-{manifest.version}-{_debian_architecture(manifest)}.hybrid.iso`.
 """,
     )
     return [package_list, hook, readme]
