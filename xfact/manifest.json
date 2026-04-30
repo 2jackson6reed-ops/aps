@@ -1,0 +1,29 @@
+{
+  "name": "xFact",
+  "version": "0.1.0",
+  "codename": "axiom",
+  "architecture": "x86_64",
+  "base": "Debian GNU/Linux",
+  "edition": "core",
+  "terminal": "aps-terminal",
+  "goals": [
+    "fact-first system diagnostics",
+    "small auditable base image",
+    "Python-friendly recovery tooling"
+  ],
+  "packages": [
+    "bash",
+    "build-essential",
+    "coreutils",
+    "curl",
+    "git",
+    "iproute2",
+    "linux-image-amd64",
+    "openssh-client",
+    "python3",
+    "python3-venv",
+    "sudo",
+    "systemd",
+    "vim"
+  ]
+}
