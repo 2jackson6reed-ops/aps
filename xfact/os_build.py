@@ -124,11 +124,11 @@ lb config noauto \\
 """,
         "build": """#!/bin/sh
 set -eu
-lb build "${@}"
+lb build noauto "${@}"
 """,
         "clean": """#!/bin/sh
 set -eu
-lb clean --purge "${@}"
+lb clean noauto --purge "${@}"
 """,
     }
 
