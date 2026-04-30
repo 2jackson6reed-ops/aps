@@ -124,10 +124,7 @@ class XFactManifestTests(unittest.TestCase):
                 (bootloader / "vesamenu.c32").readlink(),
                 Path("/usr/lib/syslinux/modules/bios/vesamenu.c32"),
             )
-            rsvg_hook = output_dir / "config" / "hooks" / "normal" / "0090-xfact-rsvg-compat.hook.chroot"
-            self.assertIn("/usr/bin/rsvg", rsvg_hook.read_text(encoding="utf-8"))
-            self.assertIn("rsvg-convert", rsvg_hook.read_text(encoding="utf-8"))
-            self.assertTrue(rsvg_hook.stat().st_mode & 0o111)
+            self.assertFalse((bootloader / "splash.svg.in").exists())
             self.assertEqual(
                 (output_dir / "config" / "includes.chroot" / "etc" / "os-release").read_text(
                     encoding="utf-8"
