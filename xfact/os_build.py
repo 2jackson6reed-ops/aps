@@ -284,7 +284,7 @@ def _write_rsvg_wrapper(output_dir: Path) -> Path:
         """#!/bin/sh
 set -eu
 if command -v rsvg-convert >/dev/null 2>&1 && ! command -v rsvg >/dev/null 2>&1; then
-  ln -s /usr/bin/rsvg-convert /usr/local/bin/rsvg
+  ln -s /usr/bin/rsvg-convert /usr/bin/rsvg
 fi
 """,
     )
