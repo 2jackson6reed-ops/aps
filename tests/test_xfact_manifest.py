@@ -148,6 +148,7 @@ class XFactManifestTests(unittest.TestCase):
             isolinux_config = (bootloader / "isolinux.cfg").read_text(encoding="utf-8")
             self.assertIn("default live", isolinux_config)
             self.assertIn("serial 0 115200", isolinux_config)
+            self.assertIn("console=ttyS0,115200", auto_config_text)
             self.assertEqual(
                 (output_dir / "config" / "includes.chroot" / "etc" / "os-release").read_text(
                     encoding="utf-8"

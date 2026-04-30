@@ -115,7 +115,7 @@ lb config noauto \\
   --architectures {architecture} \\
   --archive-areas "main contrib non-free-firmware" \\
   --binary-images iso-hybrid \\
-  --bootappend-live "boot=live components hostname=xfact username=xfact locales=en_US.UTF-8" \\
+  --bootappend-live "boot=live components hostname=xfact username=xfact locales=en_US.UTF-8 console=ttyS0,115200" \\
   --debian-installer false \\
   --distribution {distribution} \\
   --firmware-binary false \\
