@@ -84,7 +84,7 @@ Install ISO build prerequisites on Debian/Ubuntu:
 
 ```bash
 sudo apt-get update
-sudo apt-get install live-build xorriso squashfs-tools
+sudo apt-get install live-build xorriso squashfs-tools syslinux-utils
 ```
 
 Generate the live OS build tree:

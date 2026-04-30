@@ -12,7 +12,7 @@ from .manifest import DEFAULT_MANIFEST_PATH, REPO_ROOT, XFactManifest, load_mani
 
 
 DEFAULT_LIVE_BUILD_DIR = REPO_ROOT / "build" / "xfact-live"
-REQUIRED_TOOLS = ("lb", "xorriso", "mksquashfs")
+REQUIRED_TOOLS = ("lb", "xorriso", "mksquashfs", "isohybrid")
 
 
 @dataclass(frozen=True)
