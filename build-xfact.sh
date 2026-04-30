@@ -9,4 +9,6 @@ cd "${output_dir}"
 sudo lb build "${@}"
 if [[ -f live-image-amd64.hybrid.iso && ! -f "${iso_name}" ]]; then
   mv live-image-amd64.hybrid.iso "${iso_name}"
+elif [[ -f binary.hybrid.iso && ! -f "${iso_name}" ]]; then
+  mv binary.hybrid.iso "${iso_name}"
 fi
