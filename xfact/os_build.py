@@ -279,6 +279,18 @@ def _write_bootloader_template(output_dir: Path) -> list[Path]:
     splash = target_dir / "splash.svg.in"
     if splash.exists() or splash.is_symlink():
         splash.unlink()
+    _write_text(
+        target_dir / "isolinux.cfg",
+        """serial 0 115200
+console 0
+default live
+prompt 1
+timeout 30
+include live.cfg
+""",
+    )
+    written.append(target_dir / "isolinux.cfg")
+
     bootlogo = target_dir / "bootlogo"
     # cpio's "newc" end-of-archive marker with no payload files.
     bootlogo.write_bytes(_empty_newc_archive())

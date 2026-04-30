@@ -141,6 +141,9 @@ class XFactManifestTests(unittest.TestCase):
             bootlogo = (bootloader / "bootlogo").read_bytes()
             self.assertTrue(bootlogo.startswith(b"070701"))
             self.assertIn(b"TRAILER!!!", bootlogo)
+            isolinux_config = (bootloader / "isolinux.cfg").read_text(encoding="utf-8")
+            self.assertIn("default live", isolinux_config)
+            self.assertIn("serial 0 115200", isolinux_config)
             self.assertEqual(
                 (output_dir / "config" / "includes.chroot" / "etc" / "os-release").read_text(
                     encoding="utf-8"
