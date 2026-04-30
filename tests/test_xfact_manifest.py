@@ -138,6 +138,9 @@ class XFactManifestTests(unittest.TestCase):
                 Path("/usr/lib/syslinux/modules/bios/libutil.c32"),
             )
             self.assertFalse((bootloader / "splash.svg.in").exists())
+            live_template = (bootloader / "live.cfg.in").read_text(encoding="utf-8")
+            self.assertIn("kernel live/vmlinuz", live_template)
+            self.assertIn("append initrd=live/initrd.img", live_template)
             bootlogo = (bootloader / "bootlogo").read_bytes()
             self.assertTrue(bootlogo.startswith(b"070701"))
             self.assertIn(b"TRAILER!!!", bootlogo)

@@ -295,6 +295,14 @@ include live.cfg
     # cpio's "newc" end-of-archive marker with no payload files.
     bootlogo.write_bytes(_empty_newc_archive())
     written.append(bootlogo)
+    live_config = target_dir / "live.cfg.in"
+    live_config.write_text(
+        live_config.read_text(encoding="utf-8")
+        .replace("kernel @KERNEL@", "kernel live/vmlinuz")
+        .replace("append initrd=@INITRD@", "append initrd=live/initrd.img"),
+        encoding="utf-8",
+    )
+    written.append(live_config)
     return written
 
 
