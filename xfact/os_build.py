@@ -276,9 +276,32 @@ def _write_bootloader_template(output_dir: Path) -> list[Path]:
     if splash.exists() or splash.is_symlink():
         splash.unlink()
     bootlogo = target_dir / "bootlogo"
-    bootlogo.write_bytes(b"")
+    # cpio's "newc" end-of-archive marker with no payload files.
+    bootlogo.write_bytes(_empty_newc_archive())
     written.append(bootlogo)
     return written
+
+
+def _empty_newc_archive() -> bytes:
+    name = b"TRAILER!!!\x00"
+    fields = (
+        "070701",  # c_magic
+        "00000000",  # c_ino
+        "00000000",  # c_mode
+        "00000000",  # c_uid
+        "00000000",  # c_gid
+        "00000001",  # c_nlink
+        "00000000",  # c_mtime
+        "00000000",  # c_filesize
+        "00000000",  # c_devmajor
+        "00000000",  # c_devminor
+        "00000000",  # c_rdevmajor
+        "00000000",  # c_rdevminor
+        f"{len(name):08x}",  # c_namesize
+        "00000000",  # c_check
+    )
+    archive = "".join(fields).encode("ascii") + name
+    return archive + (b"\x00" * ((4 - (len(archive) % 4)) % 4))
 
 
 def _copy_python_sources(output_dir: Path) -> list[Path]:
