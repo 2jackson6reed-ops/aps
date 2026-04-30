@@ -125,6 +125,7 @@ class XFactManifestTests(unittest.TestCase):
                 Path("/usr/lib/syslinux/modules/bios/vesamenu.c32"),
             )
             self.assertFalse((bootloader / "splash.svg.in").exists())
+            self.assertEqual((bootloader / "bootlogo").read_bytes(), b"")
             self.assertEqual(
                 (output_dir / "config" / "includes.chroot" / "etc" / "os-release").read_text(
                     encoding="utf-8"

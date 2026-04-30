@@ -275,6 +275,9 @@ def _write_bootloader_template(output_dir: Path) -> list[Path]:
     splash = target_dir / "splash.svg.in"
     if splash.exists() or splash.is_symlink():
         splash.unlink()
+    bootlogo = target_dir / "bootlogo"
+    bootlogo.write_bytes(b"")
+    written.append(bootlogo)
     return written
 
 
