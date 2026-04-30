@@ -173,6 +173,7 @@ def _write_live_build_config(output_dir: Path, manifest: XFactManifest) -> list[
             "network-manager",
             "python3",
             "systemd-sysv",
+            "syslinux-utils",
         }
     )
     package_list = package_dir / "xfact.list.chroot"

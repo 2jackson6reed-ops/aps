@@ -114,6 +114,7 @@ class XFactManifestTests(unittest.TestCase):
             self.assertIn("libnss-systemd", packages)
             self.assertIn("live-config-systemd", packages)
             self.assertIn("sudo", packages)
+            self.assertIn("syslinux-utils", packages)
             bootloader = output_dir / "config" / "bootloaders" / "isolinux"
             self.assertTrue((bootloader / "isolinux.bin").is_symlink())
             self.assertEqual(
