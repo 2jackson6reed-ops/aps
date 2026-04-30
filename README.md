@@ -99,6 +99,20 @@ Build the bootable ISO:
 ./build-xfact.sh
 ```
 
+Build if needed and boot xFact in the terminal:
+
+```bash
+./run-xfact.sh
+```
+
+Useful run options:
+
+```bash
+./run-xfact.sh --rebuild
+./run-xfact.sh --display
+./run-xfact.sh --memory 2048
+```
+
 ## Architecture
 
 - `terminal_emulator.pty_backend`: starts and manages the child process in a
