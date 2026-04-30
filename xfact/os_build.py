@@ -163,6 +163,7 @@ def _write_live_build_config(output_dir: Path, manifest: XFactManifest) -> list[
             "ca-certificates",
             "dbus",
             "initramfs-tools",
+            "isolinux",
             "libnss-systemd",
             "live-boot",
             "live-config",
