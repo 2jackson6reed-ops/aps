@@ -97,7 +97,10 @@ class XFactManifestTests(unittest.TestCase):
             auto_build = output_dir / "auto" / "build"
             self.assertTrue(auto_config.exists())
             self.assertTrue(auto_config.stat().st_mode & 0o111)
-            self.assertIn("--binary-images iso-hybrid", auto_config.read_text(encoding="utf-8"))
+            auto_config_text = auto_config.read_text(encoding="utf-8")
+            self.assertIn("--binary-images iso-hybrid", auto_config_text)
+            self.assertIn("--mode debian", auto_config_text)
+            self.assertIn('--mirror-bootstrap "http://deb.debian.org/debian/"', auto_config_text)
             self.assertIn("lb build noauto", auto_build.read_text(encoding="utf-8"))
             package_list = output_dir / "config" / "package-lists" / "xfact.list.chroot"
             packages = package_list.read_text(encoding="utf-8").splitlines()

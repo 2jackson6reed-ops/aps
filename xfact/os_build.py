@@ -117,6 +117,13 @@ lb config noauto \\
   --bootappend-live "boot=live components hostname=xfact username=xfact locales=en_US.UTF-8" \\
   --debian-installer live \\
   --distribution {distribution} \\
+  --mirror-binary "http://deb.debian.org/debian/" \\
+  --mirror-bootstrap "http://deb.debian.org/debian/" \\
+  --mirror-chroot "http://deb.debian.org/debian/" \\
+  --mirror-chroot-security "http://security.debian.org/debian-security/" \\
+  --mode debian \\
+  --parent-distribution {distribution} \\
+  --parent-mirror-bootstrap "http://deb.debian.org/debian/" \\
   --iso-application "xFact Linux" \\
   --iso-publisher "xFact" \\
   --iso-volume "xFact {manifest.version}" \\
