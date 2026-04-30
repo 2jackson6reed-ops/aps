@@ -1,4 +1,4 @@
-# APS Terminal
+# APS Terminal and xFact
 
 APS Terminal is a small Linux terminal emulator implemented in Python. It runs
 interactive programs through a pseudoterminal, parses common VT/ANSI escape
@@ -61,6 +61,26 @@ Most other keys are forwarded to the child PTY.
 python3 -m unittest discover -s tests
 ```
 
+## xFact Linux distro seed
+
+This repository also includes the first seed metadata for **xFact**, a prototype
+Linux distribution concept focused on fact-first diagnostics, a small auditable
+base image, and Python-friendly recovery tooling.
+
+The current xFact deliverable is not an installable ISO. It is a reproducible
+starter layer that validates distro identity metadata and writes seed files that
+can later feed a Debian-based image build pipeline:
+
+- `xfact/manifest.json`: canonical xFact name, release, goals, and package seed.
+- `python3 -m xfact`: validates the manifest and writes `os-release`, `issue`,
+  and `package-seed.txt` under `build/xfact/`.
+
+Generate the seed files:
+
+```bash
+python3 -m xfact
+```
+
 ## Architecture
 
 - `terminal_emulator.pty_backend`: starts and manages the child process in a
@@ -71,3 +91,5 @@ python3 -m unittest discover -s tests
   scrollback, and alternate-screen state.
 - `terminal_emulator.frontend`: renders the screen with curses and forwards
   keyboard input to the PTY.
+- `xfact.manifest`: validates xFact distro metadata and generates seed identity
+  files for future image-building work.
