@@ -114,6 +114,16 @@ class XFactManifestTests(unittest.TestCase):
             self.assertIn("libnss-systemd", packages)
             self.assertIn("live-config-systemd", packages)
             self.assertIn("sudo", packages)
+            bootloader = output_dir / "config" / "bootloaders" / "isolinux"
+            self.assertTrue((bootloader / "isolinux.bin").is_symlink())
+            self.assertEqual(
+                (bootloader / "isolinux.bin").readlink(),
+                Path("/usr/lib/ISOLINUX/isolinux.bin"),
+            )
+            self.assertEqual(
+                (bootloader / "vesamenu.c32").readlink(),
+                Path("/usr/lib/syslinux/modules/bios/vesamenu.c32"),
+            )
             self.assertEqual(
                 (output_dir / "config" / "includes.chroot" / "etc" / "os-release").read_text(
                     encoding="utf-8"

@@ -34,6 +34,7 @@ def create_live_build_tree(
     written: list[Path] = []
     written.extend(_write_auto_scripts(output_dir, manifest))
     written.extend(_write_live_build_config(output_dir, manifest))
+    written.extend(_write_bootloader_template(output_dir))
     written.extend(_write_chroot_includes(output_dir, manifest, manifest_path))
     written.extend(_copy_python_sources(output_dir))
     return LiveBuildTree(output_dir, tuple(written))
@@ -249,6 +250,27 @@ def _write_chroot_includes(
     manifest_copy = opt_dir / "manifest.json"
     shutil.copyfile(manifest_path, manifest_copy)
     written.append(manifest_copy)
+    return written
+
+
+def _write_bootloader_template(output_dir: Path) -> list[Path]:
+    source_dir = Path("/usr/share/live/build/bootloaders/isolinux")
+    target_dir = output_dir / "config" / "bootloaders" / "isolinux"
+    if target_dir.exists():
+        shutil.rmtree(target_dir)
+    shutil.copytree(source_dir, target_dir, symlinks=True)
+
+    links = {
+        "isolinux.bin": "/usr/lib/ISOLINUX/isolinux.bin",
+        "vesamenu.c32": "/usr/lib/syslinux/modules/bios/vesamenu.c32",
+    }
+    written: list[Path] = []
+    for filename, destination in links.items():
+        path = target_dir / filename
+        if path.exists() or path.is_symlink():
+            path.unlink()
+        path.symlink_to(destination)
+        written.append(path)
     return written
 
 
