@@ -301,13 +301,13 @@ include live.cfg
         """label live
 \tmenu label ^Live xFact
 \tmenu default
-\tkernel live/vmlinuz
-\tappend initrd=live/initrd.img boot=live config @LB_BOOTAPPEND_LIVE@
+\tkernel /live/vmlinuz
+\tappend initrd=/live/initrd.img boot=live config @LB_BOOTAPPEND_LIVE@
 
 label live-failsafe
 \tmenu label ^Live xFact failsafe
-\tkernel live/vmlinuz
-\tappend initrd=live/initrd.img boot=live config @LB_BOOTAPPEND_LIVE@ @LB_BOOTAPPEND_FAILSAFE@
+\tkernel /live/vmlinuz
+\tappend initrd=/live/initrd.img boot=live config @LB_BOOTAPPEND_LIVE@ @LB_BOOTAPPEND_FAILSAFE@
 """,
     )
     written.append(live_config)
