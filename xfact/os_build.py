@@ -296,11 +296,19 @@ include live.cfg
     bootlogo.write_bytes(_empty_newc_archive())
     written.append(bootlogo)
     live_config = target_dir / "live.cfg.in"
-    live_config.write_text(
-        live_config.read_text(encoding="utf-8")
-        .replace("kernel @KERNEL@", "kernel live/vmlinuz")
-        .replace("append initrd=@INITRD@", "append initrd=live/initrd.img"),
-        encoding="utf-8",
+    _write_text(
+        live_config,
+        """label live
+\tmenu label ^Live xFact
+\tmenu default
+\tkernel live/vmlinuz
+\tappend initrd=live/initrd.img boot=live config @LB_BOOTAPPEND_LIVE@
+
+label live-failsafe
+\tmenu label ^Live xFact failsafe
+\tkernel live/vmlinuz
+\tappend initrd=live/initrd.img boot=live config @LB_BOOTAPPEND_LIVE@ @LB_BOOTAPPEND_FAILSAFE@
+""",
     )
     written.append(live_config)
     return written

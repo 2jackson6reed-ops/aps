@@ -139,6 +139,7 @@ class XFactManifestTests(unittest.TestCase):
             )
             self.assertFalse((bootloader / "splash.svg.in").exists())
             live_template = (bootloader / "live.cfg.in").read_text(encoding="utf-8")
+            self.assertIn("label live", live_template)
             self.assertIn("kernel live/vmlinuz", live_template)
             self.assertIn("append initrd=live/initrd.img", live_template)
             bootlogo = (bootloader / "bootlogo").read_bytes()
