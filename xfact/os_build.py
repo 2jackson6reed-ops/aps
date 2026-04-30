@@ -271,7 +271,25 @@ def _write_bootloader_template(output_dir: Path) -> list[Path]:
             path.unlink()
         path.symlink_to(destination)
         written.append(path)
+
+    written.append(_write_rsvg_wrapper(output_dir))
     return written
+
+
+def _write_rsvg_wrapper(output_dir: Path) -> Path:
+    hook_dir = output_dir / "config" / "hooks" / "normal"
+    hook = hook_dir / "0090-xfact-rsvg-compat.hook.chroot"
+    _write_text(
+        hook,
+        """#!/bin/sh
+set -eu
+if command -v rsvg-convert >/dev/null 2>&1 && ! command -v rsvg >/dev/null 2>&1; then
+  ln -s /usr/bin/rsvg-convert /usr/local/bin/rsvg
+fi
+""",
+    )
+    hook.chmod(hook.stat().st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+    return hook
 
 
 def _copy_python_sources(output_dir: Path) -> list[Path]:
