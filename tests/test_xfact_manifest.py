@@ -108,6 +108,8 @@ class XFactManifestTests(unittest.TestCase):
             packages = package_list.read_text(encoding="utf-8").splitlines()
             self.assertIn("live-boot", packages)
             self.assertIn("network-manager", packages)
+            self.assertIn("libnss-systemd", packages)
+            self.assertIn("live-config-systemd", packages)
             self.assertIn("sudo", packages)
             self.assertEqual(
                 (output_dir / "config" / "includes.chroot" / "etc" / "os-release").read_text(
