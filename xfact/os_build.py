@@ -117,6 +117,8 @@ lb config noauto \\
   --bootappend-live "boot=live components hostname=xfact username=xfact locales=en_US.UTF-8" \\
   --debian-installer live \\
   --distribution {distribution} \\
+  --firmware-binary false \\
+  --firmware-chroot false \\
   --mirror-binary "http://deb.debian.org/debian/" \\
   --mirror-bootstrap "http://deb.debian.org/debian/" \\
   --mirror-chroot "http://deb.debian.org/debian/" \\
