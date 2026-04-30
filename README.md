@@ -61,24 +61,42 @@ Most other keys are forwarded to the child PTY.
 python3 -m unittest discover -s tests
 ```
 
-## xFact Linux distro seed
+## xFact Linux OS
 
-This repository also includes the first seed metadata for **xFact**, a prototype
-Linux distribution concept focused on fact-first diagnostics, a small auditable
-base image, and Python-friendly recovery tooling.
+This repository also includes **xFact**, a bootable Debian-based Linux live OS
+focused on fact-first diagnostics, a small auditable base image, and
+Python-friendly recovery tooling.
 
-The current xFact deliverable is not an installable ISO. It is a reproducible
-starter layer that validates distro identity metadata and writes seed files that
-can later feed a Debian-based image build pipeline:
+The xFact build uses Debian `live-build` to produce a hybrid ISO that can boot on
+bare metal or a virtual machine. The generated OS includes systemd, networking,
+the package seed in `xfact/manifest.json`, xFact identity files under `/etc`,
+and this Python terminal emulator under `/opt/aps-terminal`.
 
 - `xfact/manifest.json`: canonical xFact name, release, goals, and package seed.
-- `python3 -m xfact`: validates the manifest and writes `os-release`, `issue`,
-  and `package-seed.txt` under `build/xfact/`.
+- `python3 -m xfact manifest`: validates the manifest and writes `os-release`,
+  `issue`, and `package-seed.txt` under `build/xfact/`.
+- `python3 -m xfact os configure`: writes a complete Debian live-build project
+  under `build/xfact-live/`.
+- `./build-xfact.sh`: generates the live-build project and runs `sudo lb build`
+  to produce the bootable xFact ISO.
 
-Generate the seed files:
+Install ISO build prerequisites on Debian/Ubuntu:
 
 ```bash
-python3 -m xfact
+sudo apt-get update
+sudo apt-get install live-build xorriso squashfs-tools
+```
+
+Generate the live OS build tree:
+
+```bash
+python3 -m xfact os configure
+```
+
+Build the bootable ISO:
+
+```bash
+./build-xfact.sh
 ```
 
 ## Architecture
@@ -92,4 +110,6 @@ python3 -m xfact
 - `terminal_emulator.frontend`: renders the screen with curses and forwards
   keyboard input to the PTY.
 - `xfact.manifest`: validates xFact distro metadata and generates seed identity
-  files for future image-building work.
+  files.
+- `xfact.os_build`: generates the Debian live-build project used to build the
+  bootable xFact OS ISO.

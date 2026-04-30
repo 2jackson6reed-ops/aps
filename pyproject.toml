@@ -10,7 +10,9 @@ dependencies = []
 
 [project.scripts]
 aps-terminal = "terminal_emulator.cli:main"
+xfact = "xfact.cli:main"
 xfact-manifest = "xfact.manifest:main"
+xfact-build-config = "xfact.os_build:main"
 
 [build-system]
 requires = ["setuptools>=68"]

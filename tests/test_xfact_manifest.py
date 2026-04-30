@@ -4,6 +4,7 @@ import unittest
 from pathlib import Path
 
 from xfact.manifest import XFactManifest, load_manifest, write_seed_files
+from xfact.os_build import create_live_build_tree
 
 
 class XFactManifestTests(unittest.TestCase):
@@ -66,6 +67,53 @@ class XFactManifestTests(unittest.TestCase):
                 (output_dir / "package-seed.txt").read_text(encoding="utf-8"),
                 "bash\nsudo\n",
             )
+
+    def test_create_live_build_tree_for_bootable_os(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            manifest_path = root / "manifest.json"
+            output_dir = root / "xfact-live"
+            manifest_path.write_text(
+                json.dumps(
+                    {
+                        "name": "xFact",
+                        "version": "0.1.0",
+                        "codename": "axiom",
+                        "architecture": "x86_64",
+                        "base": "Debian GNU/Linux",
+                        "edition": "core",
+                        "terminal": "aps-terminal",
+                        "goals": ["fact-first operations"],
+                        "packages": ["sudo", "bash"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            tree = create_live_build_tree(manifest_path, output_dir)
+
+            self.assertEqual(tree.root, output_dir)
+            auto_config = output_dir / "auto" / "config"
+            self.assertTrue(auto_config.exists())
+            self.assertTrue(auto_config.stat().st_mode & 0o111)
+            self.assertIn("--binary-images iso-hybrid", auto_config.read_text(encoding="utf-8"))
+            package_list = output_dir / "config" / "package-lists" / "xfact.list.chroot"
+            packages = package_list.read_text(encoding="utf-8").splitlines()
+            self.assertIn("live-boot", packages)
+            self.assertIn("network-manager", packages)
+            self.assertIn("sudo", packages)
+            self.assertEqual(
+                (output_dir / "config" / "includes.chroot" / "etc" / "os-release").read_text(
+                    encoding="utf-8"
+                ),
+                XFactManifest.from_mapping(json.loads(manifest_path.read_text(encoding="utf-8"))).os_release,
+            )
+            self.assertTrue(
+                (output_dir / "config" / "includes.chroot" / "usr" / "local" / "bin" / "xfact-info")
+                .read_text(encoding="utf-8")
+                .startswith("#!/bin/sh")
+            )
+            self.assertTrue((output_dir / "config" / "includes.chroot" / "opt" / "aps-terminal").exists())
 
 
 if __name__ == "__main__":

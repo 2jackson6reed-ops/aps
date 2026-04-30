@@ -111,11 +111,7 @@ def write_seed_files(
     return written_paths
 
 
-def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        prog="xfact-manifest",
-        description="Validate the xFact distro manifest and generate seed identity files.",
-    )
+def add_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--manifest",
         type=Path,
@@ -128,15 +124,26 @@ def build_parser() -> argparse.ArgumentParser:
         default=DEFAULT_OUTPUT_DIR,
         help="Directory where generated seed files are written.",
     )
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="xfact-manifest",
+        description="Validate the xFact distro manifest and generate seed identity files.",
+    )
+    add_arguments(parser)
     return parser
 
 
-def main(argv: list[str] | None = None) -> int:
-    args = build_parser().parse_args(argv)
+def run(args: argparse.Namespace) -> int:
     written_paths = write_seed_files(args.manifest, args.output_dir)
     for path in written_paths:
         print(path)
     return 0
+
+
+def main(argv: list[str] | None = None) -> int:
+    return run(build_parser().parse_args(argv))
 
 
 def _require_text(data: dict[str, Any], field: str) -> str:
