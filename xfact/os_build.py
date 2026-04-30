@@ -255,11 +255,10 @@ def _write_chroot_includes(
 
 
 def _write_bootloader_template(output_dir: Path) -> list[Path]:
-    source_dir = Path("/usr/share/live/build/bootloaders/isolinux")
     target_dir = output_dir / "config" / "bootloaders" / "isolinux"
     if target_dir.exists():
         shutil.rmtree(target_dir)
-    shutil.copytree(source_dir, target_dir, symlinks=True)
+    target_dir.mkdir(parents=True, exist_ok=True)
 
     links = {
         "isolinux.bin": "/usr/lib/ISOLINUX/isolinux.bin",
@@ -276,9 +275,6 @@ def _write_bootloader_template(output_dir: Path) -> list[Path]:
         path.symlink_to(destination)
         written.append(path)
 
-    splash = target_dir / "splash.svg.in"
-    if splash.exists() or splash.is_symlink():
-        splash.unlink()
     _write_text(
         target_dir / "isolinux.cfg",
         """serial 0 115200
@@ -290,6 +286,8 @@ include live.cfg
 """,
     )
     written.append(target_dir / "isolinux.cfg")
+    _write_text(target_dir / "menu.cfg", "include live.cfg\n")
+    written.append(target_dir / "menu.cfg")
 
     bootlogo = target_dir / "bootlogo"
     # cpio's "newc" end-of-archive marker with no payload files.
