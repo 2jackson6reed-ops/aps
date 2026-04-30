@@ -115,7 +115,7 @@ lb config noauto \\
   --archive-areas "main contrib non-free-firmware" \\
   --binary-images iso-hybrid \\
   --bootappend-live "boot=live components hostname=xfact username=xfact locales=en_US.UTF-8" \\
-  --debian-installer live \\
+  --debian-installer false \\
   --distribution {distribution} \\
   --firmware-binary false \\
   --firmware-chroot false \\
