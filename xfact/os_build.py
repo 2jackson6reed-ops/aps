@@ -263,6 +263,9 @@ def _write_bootloader_template(output_dir: Path) -> list[Path]:
 
     links = {
         "isolinux.bin": "/usr/lib/ISOLINUX/isolinux.bin",
+        "ldlinux.c32": "/usr/lib/syslinux/modules/bios/ldlinux.c32",
+        "libcom32.c32": "/usr/lib/syslinux/modules/bios/libcom32.c32",
+        "libutil.c32": "/usr/lib/syslinux/modules/bios/libutil.c32",
         "vesamenu.c32": "/usr/lib/syslinux/modules/bios/vesamenu.c32",
     }
     written: list[Path] = []

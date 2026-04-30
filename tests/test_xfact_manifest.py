@@ -125,6 +125,18 @@ class XFactManifestTests(unittest.TestCase):
                 (bootloader / "vesamenu.c32").readlink(),
                 Path("/usr/lib/syslinux/modules/bios/vesamenu.c32"),
             )
+            self.assertEqual(
+                (bootloader / "ldlinux.c32").readlink(),
+                Path("/usr/lib/syslinux/modules/bios/ldlinux.c32"),
+            )
+            self.assertEqual(
+                (bootloader / "libcom32.c32").readlink(),
+                Path("/usr/lib/syslinux/modules/bios/libcom32.c32"),
+            )
+            self.assertEqual(
+                (bootloader / "libutil.c32").readlink(),
+                Path("/usr/lib/syslinux/modules/bios/libutil.c32"),
+            )
             self.assertFalse((bootloader / "splash.svg.in").exists())
             bootlogo = (bootloader / "bootlogo").read_bytes()
             self.assertTrue(bootlogo.startswith(b"070701"))
