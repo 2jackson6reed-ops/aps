@@ -120,10 +120,10 @@ lb config noauto \\
   --mirror-binary "http://deb.debian.org/debian/" \\
   --mirror-bootstrap "http://deb.debian.org/debian/" \\
   --mirror-chroot "http://deb.debian.org/debian/" \\
-  --mirror-chroot-security "http://security.debian.org/debian-security/" \\
   --mode debian \\
   --parent-distribution {distribution} \\
   --parent-mirror-bootstrap "http://deb.debian.org/debian/" \\
+  --security false \\
   --iso-application "xFact Linux" \\
   --iso-publisher "xFact" \\
   --iso-volume "xFact {manifest.version}" \\
